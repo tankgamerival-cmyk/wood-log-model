@@ -1,5 +1,8 @@
 name: Assemble tree model
-on: workflow_dispatch
+on:
+  push:
+    paths:
+      - .github/workflows/assemble-tree.yml
 permissions:
   contents: write
 jobs:
@@ -11,7 +14,7 @@ jobs:
         run: |
           cat tree_upload_chunks/part_*.txt | base64 --decode > realistic_survival_tree_mobile.gltf
           python3 -c "import json; json.load(open('realistic_survival_tree_mobile.gltf'))"
-          git config user.name github-actions\[bot\]
+          git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add realistic_survival_tree_mobile.gltf
           git commit -m 'Add original mobile survival tree'
