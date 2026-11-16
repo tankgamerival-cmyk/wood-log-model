@@ -1,0 +1,18 @@
+name: Assemble tree model
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild original glTF
+        run: |
+          cat tree_upload_chunks/part_*.txt | base64 --decode > realistic_survival_tree_mobile.gltf
+          python3 -c "import json; json.load(open('realistic_survival_tree_mobile.gltf'))"
+          git config user.name github-actions\[bot\]
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add realistic_survival_tree_mobile.gltf
+          git commit -m 'Add original mobile survival tree'
+          git push
